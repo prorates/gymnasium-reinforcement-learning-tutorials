@@ -6,6 +6,8 @@ import yaml
 
 def get_default_config() -> dict:
     return {
+        "episode_number": 5,
+        "time_steps": 100,
         "datasource": 'simple',
         "alt_model": "model1"  # Possible values: None, model1, model2
     }

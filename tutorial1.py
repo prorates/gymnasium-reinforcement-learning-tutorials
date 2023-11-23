@@ -31,29 +31,29 @@ def train_model1(config: dict):
     env.step(0)
     
     # observation space limits
-    env.observation_space
+    print(f"{'Observation Space : ':>25}{env.observation_space}")
     
     # upper limit
-    env.observation_space.high
+    print(f"{'Upper limit : ':>25}{env.observation_space.high}")
     
     # lower limit
-    env.observation_space.low
+    print(f"{'Lower limit : ':>25}{env.observation_space.low}")
     
     # action space
-    env.action_space
+    print(f"{'Action Space : ':>25}{env.action_space}")
     
     # all the specs
-    env.spec
+    print(f"{'Spec : ':>25}{env.spec}")
     
     # maximum number of steps per episode
-    env.spec.max_episode_steps
+    print(f"{'Max Steps : ':>25}{env.spec.max_episode_steps}")
     
     # reward threshold per episode
-    env.spec.reward_threshold
+    print(f"{'Reward Threshold : ':>25}{env.spec.reward_threshold}")
     
     # simulate the environment
-    episodeNumber = 2
-    timeSteps = 100
+    episodeNumber = config['episode_number']
+    timeSteps = config['time_steps']
     
     for episodeIndex in range(episodeNumber):
         initial_state = env.reset()
@@ -61,7 +61,7 @@ def train_model1(config: dict):
         env.render()
         appendedObservations = []
         for timeIndex in range(timeSteps):
-            print(timeIndex)
+            # print(timeIndex)
             random_action = env.action_space.sample()
             observation, reward, terminated, truncated, info = env.step(random_action)
             appendedObservations.append(observation)
