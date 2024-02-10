@@ -1,0 +1,4 @@
+alt_model: model2
+datasource: simple
+episode_number: 20
+time_steps: 100
