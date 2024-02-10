@@ -364,7 +364,8 @@ def optimize_model(memory, optimizer, policy_net: DQN, target_net: DQN, device, 
 
 def train_model2(config: dict):
 
-    env = gym.make("CartPole-v1", render_mode="human")
+    # env = gym.make("CartPole-v1", render_mode="human")
+    env = gym.make("CartPole-v1")
 
     # if GPU is to be used
     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
