@@ -5,7 +5,7 @@ import getopt
 from config import get_config
 
 from tutorial1 import train_model1
-# from tutorial2 import train_model2
+from tutorial2 import train_model2
 from packman import train_model3
 from cartpole import train_model4
 from lunarlander import train_model5
