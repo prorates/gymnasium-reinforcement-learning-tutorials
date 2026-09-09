@@ -6,7 +6,7 @@ from config import get_device
 def train_model5(config: dict):
     device = get_device()
 
-    env = gym.make("LunarLander-v2", render_mode="human")
+    env = gym.make("LunarLander-v3", render_mode="human")
     observation, info = env.reset(seed=42)
 
     num_episodes = config['episode_number']
