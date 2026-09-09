@@ -415,7 +415,7 @@ class Scope:
         if len(parts) >= 4 and parts[1] == "Volumes" and parts[3] == "opt":
             return True
         rp = real(path)
-        for p, pr in zip(self.allow, self.allow_real, strict=False):
+        for p, pr in zip(self.allow, self.allow_real):
             if under(path, p) or under(rp, pr) or under(path, pr) or under(rp, p):
                 return True
         return False
