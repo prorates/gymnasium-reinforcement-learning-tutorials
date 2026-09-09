@@ -11,19 +11,19 @@ code: modules, boundaries, invariants); what was decided and why lives in
 you need when you need it.
 Per-model advice, when the model changes: [`docs/MODEL-ADVICE.md`](docs/MODEL-ADVICE.md).
 
-> **Just bootstrapped via `/alemax:new-project`?** Run `/opsx:propose` to spec out your first change.
-> *(This nudge can be removed once you've made your first commit beyond bootstrap.)*
-
 ## 1. What this project is
 
 Gymnasium reinforcement-learning tutorial scripts and models, adapted for Apple Silicon.
 
-<two sentences: what it produces, for whom, and what it deliberately does not do>
+A personal collection of RL demos, one readable file per Gymnasium environment: five show the
+raw environment API, two train an agent (a from-scratch DQN and a Stable-Baselines3 PPO) so the
+two approaches can be read side by side. It is a leaf — it publishes nothing, and it is a
+teaching artefact, not a benchmark: no demo is tuned to a score target.
 
-- **Stack:** python · **Run:** `<the one command — e.g. uv run gymnasium-reinforcement-learning-tutorials …>` ·
-  **Layout and invariants:** `architecture.md` — read it before adding a module, a stage, or a
-  dependency between packages; do not re-derive it from the tree, and do not summarise it here.
-- <domain doc, if any> — read it before <moment> *(e.g. `MODEL.md` before writing a record; delete this line if there is none)*
+- **Stack:** python 3.13 (**not 3.14** — `gymnasium[box2d]` has no cp314 wheel; README § Requirements) ·
+  **Run:** `uv run rl-tutorials --list` ·
+  **Layout and invariants:** `architecture.md` — read it before adding a demo or changing how
+  settings resolve; do not re-derive it from the tree, and do not summarise it here.
 
 ## 2. Where the data lives — and who owns it
 
@@ -33,33 +33,28 @@ if a variable is unset, **stop and ask** — do not guess a location and write t
 | tree | resolve it from | nature |
 | --- | --- | --- |
 | **code** | the session's repo root | private, on GitHub. **Sole owner** — refactor, rename, delete freely |
-| **data** | `<PROJECT>_<TIER>_DIR` — one variable per tier, catalogued in README § Configuration | private, local. **Sole owner** — <rebuild cost per tier> |
-| **shared** | `<SHARED_ROOT>/gymnasium-reinforcement-learning-tutorials/` | private, and **shared** — write **only** inside our own folder; outside it, report, never fix |
+| **data** | none — this project declares no data tree and no env var. Model weights are not persisted; a demo trains in-process and exits | — |
+| **not ours** | `bin/`, `.claude/`, `.github/`, `.pre-commit-config.yaml` | class M, arrives by broadcast. **Never edit to fix a lint or a bug** — the next delivery 3-way merges, so a local fix becomes a conflict. Report via `/alemax:feedback` |
 
 ## 3. The skills this project built
 
-Everything this project does is driven through its own skills, each a thin wrapper around one
-command. The command is documented for humans in `README.md`; this is the routing, not a manual.
-
-| skill | what it is for |
-| --- | --- |
-| `/<prefix>:<action>` | <one line — the job it does, not how> |
-
-<pipeline order, if one exists: `/<prefix>:<first>` → `/<prefix>:<second>`, with the one reason a step must precede another>
+None. This project builds no skills of its own — everything runs through one command,
+`uv run rl-tutorials`, documented for humans in `README.md`. The fleet skills (`/alemax:*`,
+`/opsx:*`) apply as they do everywhere.
 
 ## 4. What this project produces for others
 
-<the contract it publishes — a corpus, a library, an image, a CRD — where it lands (`<SHARED_ROOT>/gymnasium-reinforcement-learning-tutorials/`, a tag, a registry), and the skill that produces it. Or: "nothing — a leaf.">
+Nothing - a leaf. No package is published, no artefact leaves the repo.
 
 ## 5. What this project reads
 
-<the bundle, wiki, library or upstream it consumes, and the one document to read first — e.g. `<bundle>/wiki/vault_schema.md` before querying or writing that bundle; a generated index is a manifest, not a read path. Or: "only its own tree.">
+Only its own tree, plus the class-M set claude-meta broadcasts (see section 2).
 
 ## 6. Task routing — everything else
 
 | when you're working on… | invoke |
 | --- | --- |
-| <subsystem> | `/<prefix>:<action>` |
+| adding or changing a demo | read `architecture.md` - The demo contract: four exports, one registry line |
 | a delivery named in `.local/HANDOFF.md` | `/alemax:complete-update` |
 
 ## 7. How we code and spec here — with skills
