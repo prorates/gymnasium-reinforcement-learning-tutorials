@@ -1,0 +1,14 @@
+# Hyperparameters for the from-scratch DQN. Carried over from the old
+# simple_model2/config.yaml, which was the only one of the six that held settings the
+# code actually read — the other five existed to carry an `alt_model:` dispatch key.
+demo: dqn-cartpole
+
+episodes: 50
+batch_size: 128
+gamma: 0.99
+eps_start: 0.9
+eps_end: 0.05
+eps_decay: 1000
+tau: 0.005
+lr: 0.0001
+memory_capacity: 10000

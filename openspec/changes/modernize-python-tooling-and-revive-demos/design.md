@@ -93,9 +93,19 @@ sophisticated. An unavailable explicit device is an error, not a silent downgrad
 downgrade is how you spend an afternoon wondering why "the GPU" is slow.
 
 *Alternative considered:* keep MPS-preferred and document the caveat. Rejected — the default
-should be the fast path, not the impressive-looking one. **A benchmark comparing CPU and MPS
-on `dqn-cartpole` is a task**, so this decision is backed by a measurement in this repo
-rather than by a citation alone.
+should be the fast path, not the impressive-looking one.
+
+**Measured (task 6.1)**, `dqn-cartpole` on this machine, headless, no plotting:
+
+| episodes | CPU | MPS |
+| --- | --- | --- |
+| 15 | 0.5 s | 2.2 s |
+| 60 | 0.8 s | 4.3 s |
+
+MPS is **~4-5x slower**, and the gap widens with episode length — exactly the shape you
+expect when per-step transfer dominates. The old `get_device()` preferred MPS
+unconditionally, so this collection has been paying that penalty by default. The decision
+stands, now on a measurement rather than a citation.
 
 ### `tutorial2.py`'s module-level `episode_durations` becomes local state
 
@@ -122,9 +132,25 @@ Preprocessing wrappers are what you add when you train on it, and nothing here t
   default `python3`, so without the pin `uv` would pick it and the failure would read as
   "gymnasium is broken" rather than "one transitive wheel lags a release". Revisit when a
   Gymnasium release routes ≥3.14 to `box2d-py` + `swig`.
-- **`ppo-lunarlander` is the only demo whose runtime is minutes, not seconds** → its default
-  `total_timesteps` is small enough to finish quickly and learn visibly; the test suite
-  constructs its environment and model but does not train it.
+- **`ppo-lunarlander` is the only demo whose runtime is minutes, not seconds** → the test
+  suite constructs its environment but does not train it.
+
+  *This assumption was wrong as first written and is corrected here.* "Small enough to
+  finish quickly and learn visibly" turned out not to be one setting: at 60k timesteps with
+  untuned hyperparameters the agent scored **-308 against a random policy's -186** — a demo
+  advertised as "the library version" that performed worse than random. Measured, with
+  rl-baselines3-zoo's tuned LunarLander values:
+
+  | timesteps | elapsed (CPU) | mean return over 10 episodes |
+  | --- | --- | --- |
+  | 100k | 16 s | -270 |
+  | 200k | 32 s | -9 |
+  | 400k | 63 s | +177 |
+  | **600k** | **93 s** | **+240** ← default |
+
+  600k is the default: +200 is a reliable landing, and 93 s is still "quickly". The lesson
+  is that the demo had to be *measured* against a baseline, not eyeballed — which is why
+  the random-policy comparison is quoted in the demo's own output.
 - **Stable-Baselines3 pins torch `>=2.8` and gymnasium `<2.0`** → an upper bound the lock file
   records. If SB3 lags a future Gymnasium 2.0, `ppo-lunarlander` is the one demo that blocks
   the upgrade; it is deliberately the most removable file in the catalog.
