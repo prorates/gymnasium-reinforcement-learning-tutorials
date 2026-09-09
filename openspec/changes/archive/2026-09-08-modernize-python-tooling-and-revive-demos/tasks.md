@@ -97,5 +97,5 @@
       current warnings.
 - [x] 7.3 Update `CLAUDE.md` § 1 stack/run line and § 2 data table to match reality. Verify
       `uv run --script bin/claude-md-check.py` passes and the startup budget is unchanged.
-- [ ] 7.4 Open the PR with CI green. Verify `openspec validate --changes
+- [x] 7.4 Open the PR with CI green. Verify `openspec validate --changes
       modernize-python-tooling-and-revive-demos --strict` passes before archiving.
