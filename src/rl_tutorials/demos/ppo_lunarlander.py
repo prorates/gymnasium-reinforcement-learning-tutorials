@@ -14,8 +14,10 @@ MlpPolicy, which is the same conclusion `rl_tutorials.device.choose_device` reac
 from __future__ import annotations
 
 import gymnasium as gym
+import numpy as np
 from stable_baselines3 import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.monitor import Monitor
 
 from rl_tutorials.config import PPOSettings
 from rl_tutorials.device import choose_device
@@ -48,8 +50,12 @@ def run(settings: PPOSettings) -> None:
     model.learn(total_timesteps=settings.total_timesteps)
     train_env.close()
 
-    # Then watch it, if a display was asked for.
-    eval_env = gym.make(ENV_ID, render_mode=settings.render_mode)
+    # Then watch it, if a display was asked for. Monitor records true episode returns and
+    # lengths; without it SB3 warns that other wrappers may have altered what it reports.
+    # LunarLander: an 8-float Box observation and a discrete action.
+    eval_env: Monitor[np.ndarray, np.int64] = Monitor(
+        gym.make(ENV_ID, render_mode=settings.render_mode)
+    )
     mean_reward, std_reward = evaluate_policy(
         model, eval_env, n_eval_episodes=settings.episodes, render=settings.render
     )
