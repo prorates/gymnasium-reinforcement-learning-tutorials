@@ -79,7 +79,7 @@ Atari ROMs ship inside the `ale-py` wheel — there is no download or license st
 The test suite starts every demo in the catalog, which is what stops a demo from silently
 rotting — see [Migrating](#migrating-from-the-old-layout).
 
-`bin/` and `.claude/` are excluded from ruff **linting**: they arrive by broadcast from
+`bin/`, `.claude/`, `.agents/` and `plugins/` are excluded from ruff **linting**: they arrive by broadcast from
 claude-meta, so a local fix there becomes a merge conflict on the next delivery. They are
 still format-checked.
 
